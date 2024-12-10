@@ -96,7 +96,7 @@ def download():
     # Update plaintext_passwords
     plaintext_passwords = f"davidjmalan:{hashed_password}"
 
-    encrypted_filename = "passwords.db"
+    encrypted_filename = os.path.join(base_dir, "passwords.db")
 
     # Encrypt using AES-128
     cipher = AES.new(key, AES.MODE_CBC)
