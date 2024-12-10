@@ -7,6 +7,7 @@ from Crypto.Util.Padding import pad
 import random
 
 app = Flask(__name__)
+base_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Encryption configuration
 AES_BLOCK_SIZE = 16
@@ -43,7 +44,8 @@ def ecb(text, student_id):
 
 def get_excerpt(student_id):
     # Step 1: Read excerpts from the JSON file
-    with open("excerpts.json", "r") as f:
+    fpath = os.path.join(base_dir, "excerpts.json")
+    with open(fpath, "r") as f:
         data = json.load(f)
 
     # Extract 'excerpt' values
@@ -79,7 +81,8 @@ def download():
         return "Invalid name. Use only lowercase letters without spaces.", 400
 
     # Load passwords from passwords.txt
-    with open("passwords.txt", "r") as file:
+    fpath = os.path.join(base_dir, "passwords.txt")
+    with open(fpath, "r") as file:
         passwords = file.read().splitlines()
 
     # Randomly select a password using the hash of student ID as a seed
@@ -175,7 +178,8 @@ def check2():
     if not student_id or not guess_password:
         return jsonify({"error": "ID and text are required."}), 400
     
-    with open("passwords.txt", "r") as file:
+    fpath = os.path.join(base_dir, "passwords.txt")
+    with open(fpath, "r") as file:
         passwords = file.read().splitlines()
 
     # Randomly select a password using the hash of student ID as a seed
